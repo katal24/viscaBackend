@@ -2,9 +2,7 @@ package visca;
 
 import jssc.SerialPort;
 import jssc.SerialPortException;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,6 +18,7 @@ public class Visca {
     static private byte speed1 = 3;
     static private byte speed2 = 3;
     static ArrayList<String> macros;
+    static private String response;
 
     public Visca(){
         Scanner in = new Scanner(System.in);
@@ -63,19 +62,33 @@ public class Visca {
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
     }
 
-    @RequestMapping("/up")
+    @RequestMapping(value = "/up")
+    @ResponseBody
     public String up(){
         try {
             MoveUp.move(serialPort, speed1, speed2);
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
+//        try {
+//            return new JSONObject("{response: "+ bytesToString(response) + "}");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            return new JSONObject("a:a");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
     }
 
     @RequestMapping("/down")
@@ -85,8 +98,9 @@ public class Visca {
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
     }
 
     @RequestMapping("/left")
@@ -96,8 +110,9 @@ public class Visca {
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
     }
 
     @RequestMapping("/right")
@@ -107,8 +122,9 @@ public class Visca {
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
     }
 
     @RequestMapping("/tele")
@@ -118,8 +134,9 @@ public class Visca {
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
     }
 
     @RequestMapping("/wide")
@@ -129,16 +146,17 @@ public class Visca {
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
-        byte[] response = readResponseHelp(serialPort);
-        return bytesToString(response);
+        byte[] respons = readResponseHelp(serialPort);
+        response = bytesToString(respons);
+        return "{\"res\": \"" + response + "\"}";
     }
 
-    @RequestMapping("/speed/{sp1}/{sp2}")
+
+    @RequestMapping("/speed/sp1={sp1}/sp2={sp2}")
     public String wide(@PathVariable("sp1") byte sp1, @PathVariable("sp2") byte sp2){
              speed1 = sp1;
             speed2 = sp2;
-
-        return "Speed " + sp1 + " " + sp2;
+        return "{\"res\": \"" + "Speed " + sp1 + " " + sp2 + "\"}";
     }
 
 }

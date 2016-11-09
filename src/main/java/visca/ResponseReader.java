@@ -36,6 +36,7 @@ public class ResponseReader {
 
         System.out.println("Response");
         return new byte[]{12,15};
+
     }
 
 }
